@@ -1,30 +1,26 @@
-from collections import defaultdict
+import sys
+from stats import count_words, count_characters
 
-def count_words(content: str):
-    print(f"{len(content.split())} words found in the document")
-
-
-def count_characters(content: str):
-    counter = defaultdict(int)
-    for ch in content:
-        if ch.lower().isalnum():
-            counter[ch.lower()] += 1
-    for ch, amount in counter.items():
-        print(f"The '{ch}' character was found {amount} times")
-        
-
-def report():
-    with open('books/frankenstein.txt') as f:
+def report(book_path: str):
+    print("============ BOOKBOT ============")
+    with open(book_path) as f:
         content = f.read()
-        print("--- Begin report of books/frankenstein.txt ---")
-        count_words(content)
+        print(f"Analyzing book found at {book_path}...")
+        print("----------- Word Count ----------")
+        print(f"Found {count_words(content)} total words")
+        print("--------- Character Count -------")
         count_characters(content)
-        print('--- End report ---')
+    print("============= END ===============")
 
 
 
 def main():
-    report()
+
+    if len(sys.argv) < 2:
+        print("Usage: python3 main.py <path_to_book>")
+        sys.exit(1)
+
+    report(book_path=sys.argv[1])
         # count_words(content) # 77986
 
 
